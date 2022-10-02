@@ -1,0 +1,81 @@
+\documentclass[10pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[
+    top=1cm,
+    left=1cm,
+    right=1cm,
+    bottom=1cm,
+]{geometry}
+
+\usepackage[T1]{fontenc}
+
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}% bold math
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{etoolbox}
+\usepackage{float}
+\usepackage{float}% bold math
+\usepackage{graphicx}% Include figure files
+\usepackage{ifthen}
+\usepackage{indentfirst}
+\usepackage{lipsum}
+\usepackage{nameref}
+\usepackage{sectsty}
+\usepackage{setspace} % lineheight
+\usepackage{subcaption}
+\usepackage{wrapfig}
+
+\usepackage{multicol}
+\setlength{\columnsep}{.5cm}
+
+\usepackage[most]{tcolorbox}
+\newtcolorbox{mybox}[1]{colback=gray-0.8!5!white,colframe=gray-0.8!75!black,fonttitle=\bfseries,title=#1}
+
+\usepackage{xcolor}
+\definecolor{violet}{HTML}{751aff}
+\definecolor{gray-0.9}{gray}{0.9}
+\definecolor{gray-0.8}{gray}{0.8}
+\definecolor{gray-0.7}{gray}{0.7}
+
+% \usepackage[font=footnotesize,labelfont=bf]{caption}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[colorlinks,citecolor=violet,urlcolor=violet,bookmarks=false,linkcolor=violet,hypertexnames=true]{hyperref}
+
+\pagecolor{gray-0.9}
+
+% ==============================================================================
+% NEW COMMANDS
+% ==============================================================================
+
+% \renewcommand{\baselinestretch}{1.4}
+\newcommand{\code}[1]{{\color{teal}\texttt{#1}}}
+
+% ==============================================================================
+% RE-NEW COMMANDS
+% ==============================================================================
+
+% \renewcommand*{\thesubfigure}{Figure \arabic{figure} (\alph{subfigure}):}
+
+\renewcommand\thesection{\arabic{section}}
+
+% ==============================================================================
+% BEGIN DOCUMENT
+% ==============================================================================
+
+\begin{document}
+
+\begin{multicols*}{2}
+
+  \begin{mybox}{Containers}
+    \code{docker ps} : listing containers \\[.3em]
+    \hspace*{.5cm}\begin{minipage}{0.8\textwidth}
+      \code{-a} : list all, running and stopped
+    \end{minipage}\\[.5em]
+  \end{mybox}
+
+\end{multicols*}
+
+\end{document}
