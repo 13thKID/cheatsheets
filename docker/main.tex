@@ -2,10 +2,10 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[
-    top=1cm,
-    left=1cm,
-    right=1cm,
-    bottom=1cm,
+    top=0.5cm,
+    left=0.6cm,
+    right=0.6cm,
+    bottom=0.5cm,
 ]{geometry}
 
 \usepackage[T1]{fontenc}
@@ -31,7 +31,7 @@
 \setlength{\columnsep}{.5cm}
 
 \usepackage[most]{tcolorbox}
-\newtcolorbox{mybox}[1]{colback=gray-0.8!5!white,colframe=gray-0.8!75!black,fonttitle=\bfseries,title=#1}
+\newtcolorbox{mybox}[1]{colback=gray-0.7!5!white,colframe=gray-0.7!75!black,fonttitle=\bfseries,title=#1}
 
 \usepackage{xcolor}
 \definecolor{violet}{HTML}{751aff}
@@ -52,6 +52,17 @@
 
 % \renewcommand{\baselinestretch}{1.4}
 \newcommand{\code}[1]{{\color{teal}\texttt{#1}}}
+\newcommand{\cmd}[3][.3]{\code{#2} : #3 \\[#1em]}
+\newcommand{\opts}[2][.5]{\hspace*{.5cm}\begin{minipage}{0.9\textwidth}
+  #2
+  \vspace*{-1em}
+\end{minipage}\\[#1em]}
+\newcommand{\cluster}[2]{\begin{mybox}{#1}
+  #2
+  \vspace*{-1.3em}
+\end{mybox}}
+
+
 
 % ==============================================================================
 % RE-NEW COMMANDS
@@ -69,30 +80,73 @@
 
 \begin{multicols*}{2}
 
-  \begin{mybox}{Containers}
-    \code{docker ps} : listing containers \\[.3em]
-    \hspace*{.5cm}\begin{minipage}{0.8\textwidth}
-      \code{-a} : list all, running and stopped
-    \end{minipage}\\[.5em]
-    \code{docker run <image>} : run an image \\[.3em]
-    \hspace*{.5cm}\begin{minipage}{0.9\textwidth}
+  \cluster{Containers}{
+    \cmd{docker ps}{listing containers}
+    \opts{
+      \code{-a} : list all, running and stopped \\
+    }
+    \cmd{docker run <image>}{run an image}
+    \opts{
       \code{-i} : interactive mode \\
       \code{-t} : expose TTY \\
       \code{-p} : expose port \code{ext:int} eg. \code{3000:80} \\
-      \code{-d} : detached mode
-    \end{minipage}\\[.5em]
+      \code{-d} : detached mode \\
+      \code{-v <abs-lpath>:<cpath>} : create bind mount \\
+      \code{-v <name>:<cpath>} : create named volume \\
+      \code{-v <cpath>} : create anonymous volume \\
+      \code{-rm} : automatically remove when exits \\
+      \code{-name <string>} : give container a name \\
+    }
     \code{docker rm <container>} : remove container \\[.3em]
     \code{docker stop <container>} : stop running container \\[.3em]
     \code{docker start <container>} : start stopped container \\[.3em]
     \code{docker attach <container>} : attach to the running container \\[.3em]
-    \code{docker logs <container>} : fetch the logs of the container \\[.3em]
-    \hspace*{.5cm}\begin{minipage}{0.9\textwidth}
-      \code{-f} : follow
-    \end{minipage}\\[.5em]
+  }
+
+  \cluster{Images}{
+    \cmd{docker build <src>}{build docker image; \code{src}(.) - usually the \code{Dockerfile} is in the root}
+    \opts{
+      \code{-t <name>:<tag>} : tag an image \\
+    }
+    \code{docker images} : list all images \\[.3em]
+    \code{docker rmi <image-id>} : remove image \\[.3em]
+    \code{docker image inspect <image-id>} : details of the image\\[.3em]
+    \code{docker image prune} : remove image \\[.3em]
+    \opts{
+      \code{-a} : remove all images \\
+    }
+  }
+
+  \begin{mybox}{DockerHub \& Sharing}
+    \cmd{docker push <image-name>}{Push image to DockerHub}
+    \cmd{docker pull <image-name>}{Pull image from DockerHub}
+    \cmd{docker login}{Login into DockerHub}
+    \cmd{docker logout}{Logout from DockerHub}
+    \vspace*{-1.3em}
   \end{mybox}
 
-  \begin{mybox}{Images}
-    \code{docker images} : list all images \\[.3em]
+  \cluster{Volumes}{
+    \cmd{docker volume ls}{List volumes}
+    \cmd{docker volume rm}{Remove volume}
+  }
+
+  \cluster{Other}{
+    \cmd{docker logs <container>}{fetch the logs of the container}
+    \opts{
+      \code{-f} : follow \\
+    }
+    \cmd{docker cp <src> <dest>}{copy files to / from the container; \code{src/dest} (\code{<container-name>:<path> | <path>})}
+  }
+
+  \begin{mybox}{Dockerfile}
+    \code{FROM <base-image>} : eg. \code{node}  \\[.3em]
+    \code{WORKDIR /app} : Commands will be executed relatively to this dir \\[.3em]
+    \code{COPY <src> <src>} : \code{src} (\code{.}) \code{dest} (\code{/app}) \\[.3em]
+    \code{RUN npm install} : runs when image is created \\[.3em]
+    \code{EXPOSE 80} : exposes port 80 \\[.3em]
+    \code{VOLUME ["<path>", ...]} : create anonymous volume \\[.3em]
+    \code{CMD ["node", "server.js"]} : runs when container is started. Should always be the last \\[.3em]
+    \vspace*{-1.3em}
   \end{mybox}
 
 \end{multicols*}
