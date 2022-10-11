@@ -32,6 +32,7 @@
 
 \usepackage[most]{tcolorbox}
 \newtcolorbox{mybox}[1]{colback=gray-0.7!5!white,colframe=gray-0.7!75!black,fonttitle=\bfseries,title=#1}
+\newtcolorbox{summarybox}[1]{colback=teal!5!white,colframe=teal!75!black,fonttitle=\bfseries,title=#1}
 
 \usepackage{xcolor}
 \definecolor{violet}{HTML}{751aff}
@@ -57,12 +58,33 @@
   #2
   \vspace*{-1em}
 \end{minipage}\\[#1em]}
+
+\newcommand{\opt}[2]{
+  \code{#1} : #2 \\
+}
+
 \newcommand{\cluster}[2]{\begin{mybox}{#1}
   #2
   \vspace*{-1.3em}
 \end{mybox}}
 
+\newcommand{\summary}[2]{\begin{summarybox}{#1}
+  #2
+  \vspace*{-1.3em}
+\end{summarybox}}
 
+\newcommand{\headline}[1]{\textbf{\color{teal}#1}}
+
+\newcommand{\feature}[2]{
+  \headline{#1}
+  \vspace*{-.5em}
+  \begin{itemize}
+    \setlength\itemsep{-.1em}
+    \small
+    #2
+  \end{itemize}
+  \vspace*{.3em}
+}
 
 % ==============================================================================
 % RE-NEW COMMANDS
@@ -92,10 +114,15 @@
       \code{-p} : expose port \code{ext:int} eg. \code{3000:80} \\
       \code{-d} : detached mode \\
       \code{-v <abs-lpath>:<cpath>} : create bind mount \\
+      \code{-v <abs-lpath>:<cpath>:ro} : create read-only bind mount \\
       \code{-v <name>:<cpath>} : create named volume \\
       \code{-v <cpath>} : create anonymous volume \\
       \code{-rm} : automatically remove when exits \\
+      \code{---env (-e) KEY=VALUE} : overwriting default env vars \\
+      \cmd{---env-file <env-file-path>}{overwriting default env vars with vars from .env file}
       \code{-name <string>} : give container a name \\
+      \cmd{---network=host}{Use host networking. \\ Then \code{-p, --publish, -P}, and \code{--publish-all} are ignored, since container does not have its own IP address}
+      \cmd{---add-host=host.docker.internal:host-gateway}{Mapp DNS host.docker.internal to host-gateway}
     }
     \code{docker rm <container>} : remove container \\[.3em]
     \code{docker stop <container>} : stop running container \\[.3em]
@@ -107,6 +134,7 @@
     \cmd{docker build <src>}{build docker image; \code{src}(.) - usually the \code{Dockerfile} is in the root}
     \opts{
       \code{-t <name>:<tag>} : tag an image \\
+      \cmd{---build-arg KEY=VALUE}{Overwriting default values of the args}
     }
     \code{docker images} : list all images \\[.3em]
     \code{docker rmi <image-id>} : remove image \\[.3em]
@@ -143,12 +171,39 @@
     \code{WORKDIR /app} : Commands will be executed relatively to this dir \\[.3em]
     \code{COPY <src> <src>} : \code{src} (\code{.}) \code{dest} (\code{/app}) \\[.3em]
     \code{RUN npm install} : runs when image is created \\[.3em]
-    \code{EXPOSE 80} : exposes port 80 \\[.3em]
+    \cmd{ARG NAME=DEFAULT\_VAL}{Defining build argument}
+    \code{ENV PORT 80} : Creates env variable PORT with a default value 80 \\[.3em]
+    \code{EXPOSE \$PORT} : exposes port under the PORT variable \\[.3em]
     \code{VOLUME ["<path>", ...]} : create anonymous volume \\[.3em]
     \code{CMD ["node", "server.js"]} : runs when container is started. Should always be the last \\[.3em]
     \vspace*{-1.3em}
   \end{mybox}
 
+  \cluster{Networking}{
+    \cmd{host.docker.internal}{Resolves to you localhost IP as seen from container. In order to use that, we must add new host in build command: \\\code{---add-host=host.docker.internal:host-gateway}}
+    \cmd{docker network create}{Create new docker network}
+    \cmd{docker network ls}{List all networks}
+  }
+
+  \summary{Volumes \& Bind mounts}{
+    \feature{Anonymous volumes}{
+      \item Created specifically for a single container
+      \item Survives container shutdown / restart, but \underline{NOT removal}
+      \item \underline{Cannot be shared} across containers
+    }
+    \feature{Anonymous volumes}{
+      \item Created in general / not container specific
+      \item Survives container shutdown / restart \& removal
+      \item \underline{Can be shared} across containers
+      \item Can be reused
+    }
+    \feature{Bind mounts}{
+      \item Located at host file system, not tied to any container
+      \item Survives container shutdown / restart \& removal
+      \item \underline{Can be shared} across containers
+      \item Can be reused
+    }
+  }
 \end{multicols*}
 
 \end{document}
