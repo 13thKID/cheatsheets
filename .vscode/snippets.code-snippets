@@ -1,0 +1,30 @@
+{
+  "cmd": {
+		"prefix": "cmd",
+		"body": [
+			"\\cmd{$1}{$2}"
+		]
+	},
+	"cluster": {
+		"prefix": "cluster",
+		"body": [
+			"\\cluster{$1}{",
+				"\t$2",
+			"}",
+		]
+	},
+	"opts": {
+		"prefix": "opts",
+		"body": [
+			"\\opts{",
+				"\t\\opt{$2}{$3}",
+			"}"
+		]
+	},
+	"opt": {
+		"prefix": "opt",
+		"body": [
+			"\\opt{#1}{#2}"
+		]
+	}
+}
