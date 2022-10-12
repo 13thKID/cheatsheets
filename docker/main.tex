@@ -2,7 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[
-    top=0.5cm,
+    top=0.3cm,
     left=0.6cm,
     right=0.6cm,
     bottom=0.5cm,
@@ -33,6 +33,7 @@
 \usepackage[most]{tcolorbox}
 \newtcolorbox{mybox}[1]{colback=gray-0.7!5!white,colframe=gray-0.7!75!black,fonttitle=\bfseries,title=#1}
 \newtcolorbox{summarybox}[1]{colback=teal!5!white,colframe=teal!75!black,fonttitle=\bfseries,title=#1}
+\newtcolorbox{titlebox}{colback=teal,colframe=teal,coltext=white,before=\centering,hbox}
 
 \usepackage{xcolor}
 \definecolor{violet}{HTML}{751aff}
@@ -46,6 +47,8 @@
 
 \pagecolor{gray-0.9}
 \pagenumbering{gobble}
+
+\usepackage{fancyhdr}
 
 % ==============================================================================
 % NEW COMMANDS
@@ -86,6 +89,15 @@
   \vspace*{.3em}
 }
 
+\newcommand{\mytitle}[1]{
+  \begin{center}
+    \begin{titlebox}
+      {\large \textbf{#1}}
+    \end{titlebox}
+  \end{center}
+  \vspace*{-1.8em}
+}
+
 % ==============================================================================
 % RE-NEW COMMANDS
 % ==============================================================================
@@ -99,6 +111,10 @@
 % ==============================================================================
 
 \begin{document}
+
+\pagestyle{fancy}
+
+\mytitle{DOCKER}
 
 \begin{multicols*}{2}
 
@@ -204,6 +220,16 @@
       \item Can be reused
     }
   }
+\end{multicols*}
+
+\newpage
+
+\mytitle{DOCKER COMPOSER}
+
+\begin{multicols*}{2}
+
+
+
 \end{multicols*}
 
 \end{document}
