@@ -98,6 +98,8 @@
   \vspace*{-1.8em}
 }
 
+\newcommand{\bs}{\textbackslash}
+
 % ==============================================================================
 % RE-NEW COMMANDS
 % ==============================================================================
@@ -228,7 +230,30 @@
 
 \begin{multicols*}{2}
 
+  \cluster{Compose}{
+  \code{services:\\
+  \hspace*{1em}mongodb: \\
+  \hspace*{2em}image: 'mongo' \\
+  \hspace*{2em}volumes: \\
+  \hspace*{3em}- data:{\slash}data{\slash}db \\
+  \hspace*{2em}environment: \\
+  \hspace*{3em}MONGO\_INITDB\_ROOT\_USERNAME: max \\
+  \hspace*{2em}env\_file: \\
+  \hspace*{3em}- .{\slash}env{\slash}mongo.env \\
+  \hspace*{2em}networks: \\
+  \hspace*{3em}- goals-net \\
+  volumes: \\
+  \hspace*{1em}data: \\
+  }
+  }
 
+  \cluster{Compose commands}{
+    \cmd{docker compose up}{Compose up containers}
+    \opts{
+      \opt{-d}{detached mode}
+    }
+    \cmd{docker compose down}{Stop containers}
+  }
 
 \end{multicols*}
 
