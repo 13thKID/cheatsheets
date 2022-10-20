@@ -234,14 +234,22 @@
   \code{services:\\
   \hspace*{1em}mongodb: \\
   \hspace*{2em}image: 'mongo' \\
+  \hspace*{2em}container\_name: mongodb \\
   \hspace*{2em}volumes: \\
   \hspace*{3em}- data:{\slash}data{\slash}db \\
-  \hspace*{2em}environment: \\
+  \hspace*{2em}\#1 environment: \\
   \hspace*{3em}MONGO\_INITDB\_ROOT\_USERNAME: max \\
-  \hspace*{2em}env\_file: \\
+  \hspace*{2em}\#2 env\_file: \\
   \hspace*{3em}- .{\slash}env{\slash}mongo.env \\
   \hspace*{2em}networks: \\
   \hspace*{3em}- goals-net \\
+  \hspace*{1em}backend: \\
+  \hspace*{2em}\#1 build: .{\slash}backend \\
+  \hspace*{2em}\#2 build: \\
+  \hspace*{3em}context: .{\slash}backend \\
+  \hspace*{3em}dockerfile: Dockerfile-name \\
+  \hspace*{2em}ports: \\
+  \hspace*{3em}- '80:80' \\
   volumes: \\
   \hspace*{1em}data: \\
   }
@@ -253,6 +261,9 @@
       \opt{-d}{detached mode}
     }
     \cmd{docker compose down}{Stop containers}
+    \opts{
+      \opt{-v}{remove volumes}
+    }
   }
 
 \end{multicols*}
