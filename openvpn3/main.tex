@@ -1,0 +1,156 @@
+\documentclass[10pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[
+    top=0.3cm,
+    left=0.6cm,
+    right=0.6cm,
+    bottom=0.5cm,
+]{geometry}
+
+\usepackage[T1]{fontenc}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}% bold math
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{etoolbox}
+\usepackage{float}
+\usepackage{float}% bold math
+\usepackage{graphicx}% Include figure files
+\usepackage{ifthen}
+\usepackage{indentfirst}
+\usepackage{lipsum}
+\usepackage{nameref}
+\usepackage{sectsty}
+\usepackage{setspace} % lineheight
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage{pdflscape}
+
+\usepackage{multicol}
+\setlength{\columnsep}{.5cm}
+
+\usepackage[most]{tcolorbox}
+\newtcolorbox{mybox}[1]{colback=gray-0.7!5!white,colframe=gray-0.7!75!black,fonttitle=\bfseries,title=#1}
+\newtcolorbox{summarybox}[1]{colback=teal!5!white,colframe=teal!75!black,fonttitle=\bfseries,title=#1}
+\newtcolorbox{titlebox}{colback=teal,colframe=teal,coltext=white,before=\centering,hbox}
+
+\usepackage{xcolor}
+\definecolor{violet}{HTML}{751aff}
+\definecolor{gray-0.9}{gray}{0.9}
+\definecolor{gray-0.8}{gray}{0.8}
+\definecolor{gray-0.7}{gray}{0.7}
+
+% \usepackage[font=footnotesize,labelfont=bf]{caption}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[colorlinks,citecolor=violet,urlcolor=violet,bookmarks=false,linkcolor=violet,hypertexnames=true]{hyperref}
+
+\pagecolor{gray-0.9}
+\pagenumbering{gobble}
+
+\usepackage{fancyhdr}
+
+% ==============================================================================
+% NEW COMMANDS
+% ==============================================================================
+
+% \renewcommand{\baselinestretch}{1.4}
+\newcommand{\code}[1]{{\color{teal}\texttt{#1}}}
+\newcommand{\cmd}[3][.3]{\code{#2} : #3 \\[#1em]}
+\newcommand{\opts}[2][.5]{\hspace*{.5cm}\begin{minipage}{0.9\textwidth}
+  #2
+  \vspace*{-1em}
+\end{minipage}\\[#1em]}
+
+\newcommand{\opt}[2]{
+  \code{#1} : #2 \\
+}
+
+\newcommand{\cluster}[2]{\begin{mybox}{#1}
+  #2
+  \vspace*{-1.3em}
+\end{mybox}}
+
+\newcommand{\summary}[2]{\begin{summarybox}{#1}
+  #2
+  \vspace*{-1.3em}
+\end{summarybox}}
+
+\newcommand{\headline}[1]{\textbf{\color{teal}#1}}
+
+\newcommand{\feature}[2]{
+  \headline{#1}
+  \vspace*{-.5em}
+  \begin{itemize}
+    \setlength\itemsep{-.1em}
+    \small
+    #2
+  \end{itemize}
+  \vspace*{.3em}
+}
+
+\newcommand{\mytitle}[1]{
+  \begin{center}
+    \begin{titlebox}
+      {\large \textbf{#1}}
+    \end{titlebox}
+  \end{center}
+  \vspace*{-1.8em}
+}
+
+\newcommand{\bs}{\textbackslash}
+
+% ==============================================================================
+% RE-NEW COMMANDS
+% ==============================================================================
+
+% \renewcommand*{\thesubfigure}{Figure \arabic{figure} (\alph{subfigure}):}
+
+\renewcommand\thesection{\arabic{section}}
+
+% ==============================================================================
+% BEGIN DOCUMENT
+% ==============================================================================
+
+\begin{document}
+% \begin{landscape}
+
+\pagestyle{fancy}
+
+\mytitle{OpenVPN 3}
+
+% \begin{multicols*}{2}
+\vspace*{1em}
+
+\cluster{Configs}{
+  \cmd{openvpn3 config-import --config <CONFIG>}{Import config file}
+  \cmd{openvpn3 configs-list}{List all configs}
+}
+
+\cluster{Sessions}{
+  \cmd{openvpn3 sessions-list}{List all sessions}
+  \cmd{openvpn3 session-start}{Start session}
+  \opts{
+    \opt{---config <CONFIG>}{by config name}
+    \opt{---config-path <CONFIG-PATH>}{by config path}
+  }
+  \cmd{openvpn3 session-manage}{Manage session}
+  \opts{
+    \opt{---config <CONFIG>}{by config name}
+    \opt{---config-path <CONFIG-PATH>}{by config path}
+    \opt{---restart}{Restart}
+    \opt{---disconnect}{Disconnect}
+  }
+  \cmd{openvpn3 session-stats}{Session stats}
+  \opts{
+    \opt{---config <CONFIG>}{by config name}
+    \opt{---config-path <CONFIG-PATH>}{by config path}
+    \opt{---session-path <SESSION-PATH>}{by session path}
+  } \\
+}
+
+% \end{multicols*}
+
+% \end{landscape}
+\end{document}
